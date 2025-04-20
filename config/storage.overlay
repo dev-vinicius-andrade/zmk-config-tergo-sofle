@@ -1,0 +1,21 @@
+/ {
+    zephyr,settings = &settings_storage;
+};
+
+&settings_storage {
+    compatible = "zephyr,settings-storage";
+    storage_partition = <&storage_partition>;
+};
+
+&flash0 {
+    partitions {
+        compatible = "fixed-partitions";
+        #address-cells = <1>;
+        #size-cells = <1>;
+
+        storage_partition: partition@e000 {
+            label = "settings";
+            reg = <0x0000e000 0x2000>;
+        };
+    };
+};
