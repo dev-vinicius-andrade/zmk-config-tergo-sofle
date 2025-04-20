@@ -2,4 +2,4 @@
 # SPDX-License-Identifier: MIT
 
 config SHIELD_DONGLE_DISPLAY
-	def_bool $(shields_list_contains,dongle_display)
+	def_bool $(shields_list_contains,dongle_display_home)
