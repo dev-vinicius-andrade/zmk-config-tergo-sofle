@@ -2,4 +2,4 @@ on: [push, pull_request, workflow_dispatch]
 
 jobs:
   build:
-    uses: dev-vinicius-andrade/zmk/.github/workflows/build-user-config.yml@main
+    uses: dev-vinicius-andrade/zmk/.github/workflows/build-user-config.yml@feature/multi-central
