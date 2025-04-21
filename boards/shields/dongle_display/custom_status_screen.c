@@ -13,8 +13,7 @@
 #include "widgets/hid_indicators.h"
 
 #include <zephyr/logging/log.h>
-#include <bluetooth/bluetooth.h>
-#include <bluetooth/hci.h>
+#include <zephyr/bluetooth/bluetooth.h>
 #include <stdio.h>
 #include <string.h>
 LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
