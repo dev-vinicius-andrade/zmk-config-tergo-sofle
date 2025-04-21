@@ -13,6 +13,8 @@
 #include "widgets/hid_indicators.h"
 
 #include <zephyr/logging/log.h>
+#include <bluetooth/bluetooth.h>
+#include <string.h>
 LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 
 static struct zmk_widget_output_status output_status_widget;
@@ -27,7 +29,24 @@ static struct zmk_widget_hid_indicators hid_indicators_widget;
 
 lv_style_t global_style;
 
-lv_obj_t *zmk_display_status_screen() {
+static char dongle_mac_str[20] = "MAC: Unavailable";
+
+// Retrieve MAC address and format string
+static void get_dongle_mac_str()
+{
+    bt_addr_le_t addrs[CONFIG_BT_ID_MAX];
+    size_t count = CONFIG_BT_ID_MAX;
+
+    if (bt_id_get(addrs, &count) > 0 && count > 0)
+    {
+        snprintf(dongle_mac_str, sizeof(dongle_mac_str), "MAC: %02X:%02X:%02X:%02X:%02X:%02X",
+                 addrs[0].a.val[5], addrs[0].a.val[4], addrs[0].a.val[3],
+                 addrs[0].a.val[2], addrs[0].a.val[1], addrs[0].a.val[0]);
+    }
+}
+
+lv_obj_t *zmk_display_status_screen()
+{
     lv_obj_t *screen;
 
     screen = lv_obj_create(NULL);
@@ -37,10 +56,13 @@ lv_obj_t *zmk_display_status_screen() {
     lv_style_set_text_letter_space(&global_style, 1);
     lv_style_set_text_line_space(&global_style, 1);
     lv_obj_add_style(screen, &global_style, LV_PART_MAIN);
-    
+
+    // Retrieve MAC address before display
+    get_dongle_mac_str();
+
     zmk_widget_output_status_init(&output_status_widget, screen);
     lv_obj_align(zmk_widget_output_status_obj(&output_status_widget), LV_ALIGN_TOP_LEFT, 0, 0);
-    
+
     zmk_widget_bongo_cat_init(&bongo_cat_widget, screen);
     lv_obj_align(zmk_widget_bongo_cat_obj(&bongo_cat_widget), LV_ALIGN_BOTTOM_RIGHT, 0, -7);
 
@@ -53,11 +75,15 @@ lv_obj_t *zmk_display_status_screen() {
 #endif
 
     zmk_widget_layer_status_init(&layer_status_widget, screen);
-    // lv_obj_align(zmk_widget_layer_status_obj(&layer_status_widget), LV_ALIGN_BOTTOM_LEFT, 2, -18);
     lv_obj_align_to(zmk_widget_layer_status_obj(&layer_status_widget), zmk_widget_bongo_cat_obj(&bongo_cat_widget), LV_ALIGN_BOTTOM_LEFT, 0, 5);
 
     zmk_widget_dongle_battery_status_init(&dongle_battery_status_widget, screen);
     lv_obj_align(zmk_widget_dongle_battery_status_obj(&dongle_battery_status_widget), LV_ALIGN_TOP_RIGHT, 0, 0);
+
+    // MAC Address Label
+    lv_obj_t *mac_label = lv_label_create(screen);
+    lv_label_set_text(mac_label, dongle_mac_str);
+    lv_obj_align_to(mac_label, zmk_widget_dongle_battery_status_obj(&dongle_battery_status_widget), LV_ALIGN_OUT_BOTTOM_RIGHT, 0, 2);
 
     return screen;
 }
