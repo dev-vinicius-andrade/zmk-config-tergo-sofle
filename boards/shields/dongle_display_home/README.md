@@ -1,1 +1,0 @@
-Protótipo. A ser lançado.
