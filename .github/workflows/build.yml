@@ -3,3 +3,42 @@ on: [push, pull_request, workflow_dispatch]
 jobs:
   build:
     uses: dev-vinicius-andrade/zmk/.github/workflows/build-user-config.yml@feature/multi-central
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Get current date
+        id: date
+        run: echo "date=$(date -u +'%Y.%m.%d')" >> $GITHUB_OUTPUT
+
+      - name: Get existing release count for today
+        id: check
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          count=$(gh release list --limit 100 \
+            --repo "$GITHUB_REPOSITORY" \
+            | grep "^${{ steps.date.outputs.date }}" | wc -l)
+
+          if [ "$count" -eq 0 ]; then
+            tag="${{ steps.date.outputs.date }}"
+          else
+            tag="${{ steps.date.outputs.date }}-r$((count + 1))"
+          fi
+
+          echo "tag=$tag" >> $GITHUB_OUTPUT
+
+      - name: Download Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: ./artifacts
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.check.outputs.tag }}
+          name: Release ${{ steps.check.outputs.tag }}
+          files: ./artifacts/**/* # Adjust if needed
