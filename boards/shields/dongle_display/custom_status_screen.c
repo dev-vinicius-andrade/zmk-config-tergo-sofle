@@ -13,7 +13,9 @@
 #include "widgets/hid_indicators.h"
 
 #include <zephyr/logging/log.h>
-#include <zmk/ble.h>
+#include <bluetooth/bluetooth.h>
+#include <bluetooth/hci.h>
+#include <stdio.h>
 #include <string.h>
 LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 
@@ -34,12 +36,20 @@ static char dongle_mac_str[20] = "MAC: Unavailable";
 // Retrieve MAC address and format string
 static void get_dongle_mac_str()
 {
-    const bt_addr_le_t *addr = zmk_ble_active_profile_addr();
-    if (addr != NULL)
+    bt_addr_le_t addrs[CONFIG_BT_ID_MAX];
+    size_t count = bt_id_get(addrs, ARRAY_SIZE(addrs));
+
+    if (count > 0)
     {
+        const bt_addr_le_t *addr = &addrs[0];
+
         snprintf(dongle_mac_str, sizeof(dongle_mac_str), "MAC: %02X:%02X:%02X:%02X:%02X:%02X",
                  addr->a.val[5], addr->a.val[4], addr->a.val[3],
                  addr->a.val[2], addr->a.val[1], addr->a.val[0]);
+    }
+    else
+    {
+        snprintf(dongle_mac_str, sizeof(dongle_mac_str), "MAC: not found");
     }
 }
 
@@ -81,7 +91,8 @@ lv_obj_t *zmk_display_status_screen()
     // MAC Address Label
     lv_obj_t *mac_label = lv_label_create(screen);
     lv_label_set_text(mac_label, dongle_mac_str);
-    lv_obj_align_to(mac_label, zmk_widget_dongle_battery_status_obj(&dongle_battery_status_widget), LV_ALIGN_OUT_BOTTOM_RIGHT, 0, 2);
+    lv_obj_set_style_text_font(mac_label, &lv_font_montserrat_10, 0);
+    lv_obj_align_to(mac_label, zmk_widget_dongle_battery_status_obj(&dongle_battery_status_widget), LV_ALIGN_TOP_MID, 0, 2);
 
     return screen;
 }
