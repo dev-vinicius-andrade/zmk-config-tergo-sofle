@@ -13,7 +13,7 @@
 #include "widgets/hid_indicators.h"
 
 #include <zephyr/logging/log.h>
-#include <bluetooth/bluetooth.h>
+#include <zmk/ble.h>
 #include <string.h>
 LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 
@@ -34,14 +34,12 @@ static char dongle_mac_str[20] = "MAC: Unavailable";
 // Retrieve MAC address and format string
 static void get_dongle_mac_str()
 {
-    bt_addr_le_t addrs[CONFIG_BT_ID_MAX];
-    size_t count = CONFIG_BT_ID_MAX;
-
-    if (bt_id_get(addrs, &count) > 0 && count > 0)
+    const bt_addr_le_t *addr = zmk_ble_active_profile_address();
+    if (addr != NULL)
     {
         snprintf(dongle_mac_str, sizeof(dongle_mac_str), "MAC: %02X:%02X:%02X:%02X:%02X:%02X",
-                 addrs[0].a.val[5], addrs[0].a.val[4], addrs[0].a.val[3],
-                 addrs[0].a.val[2], addrs[0].a.val[1], addrs[0].a.val[0]);
+                 addr->a.val[5], addr->a.val[4], addr->a.val[3],
+                 addr->a.val[2], addr->a.val[1], addr->a.val[0]);
     }
 }
 
