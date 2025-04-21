@@ -36,9 +36,18 @@ jobs:
         with:
           path: ./artifacts
 
+      - name: Zip Artifacts
+        run: |
+          mkdir -p zipped
+          for dir in ./artifacts/*; do
+            zip -r "zipped/$(basename "$dir").zip" "$dir"
+          done
+
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.check.outputs.tag }}
           name: Release ${{ steps.check.outputs.tag }}
-          files: ./artifacts/**/* # Adjust if needed
+          files: |
+            artifacts/**/*
+            zipped/*.zip
