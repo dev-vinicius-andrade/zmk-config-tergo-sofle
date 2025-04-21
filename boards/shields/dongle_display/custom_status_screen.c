@@ -34,7 +34,7 @@ static char dongle_mac_str[20] = "MAC: Unavailable";
 // Retrieve MAC address and format string
 static void get_dongle_mac_str()
 {
-    const bt_addr_le_t *addr = zmk_ble_active_profile_address();
+    const bt_addr_le_t *addr = zmk_ble_active_profile_addr();
     if (addr != NULL)
     {
         snprintf(dongle_mac_str, sizeof(dongle_mac_str), "MAC: %02X:%02X:%02X:%02X:%02X:%02X",
