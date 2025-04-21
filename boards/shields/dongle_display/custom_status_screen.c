@@ -36,7 +36,9 @@ static char dongle_mac_str[20] = "MAC: Unavailable";
 static void get_dongle_mac_str()
 {
     bt_addr_le_t addrs[CONFIG_BT_ID_MAX];
-    size_t count = bt_id_get(addrs, ARRAY_SIZE(addrs));
+    size_t count = CONFIG_BT_ID_MAX;
+
+    bt_id_get(addrs, &count); // ✅ Pass pointer to count
 
     if (count > 0)
     {
