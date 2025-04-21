@@ -89,12 +89,11 @@ lv_obj_t *zmk_display_status_screen()
     zmk_widget_dongle_battery_status_init(&dongle_battery_status_widget, screen);
     lv_obj_align(zmk_widget_dongle_battery_status_obj(&dongle_battery_status_widget), LV_ALIGN_TOP_RIGHT, 0, 0);
 
-    // MAC Address Label
     lv_obj_t *mac_label = lv_label_create(screen);
+    lv_label_set_long_mode(mac_label, LV_LABEL_LONG_SCROLL); // Scroll text if too long
+    lv_obj_set_width(mac_label, 64);                         // Width for scroll zone
     lv_label_set_text(mac_label, dongle_mac_str);
-
-    // lv_obj_set_style_text_font(mac_label, &lv_font_montserrat_10, 0);
-    lv_obj_align(mac_label, LV_ALIGN_TOP_MID, 0, 24);
+    lv_obj_align(mac_label, LV_ALIGN_TOP_MID, 0, 24); // Adjust position
 
     return screen;
 }
