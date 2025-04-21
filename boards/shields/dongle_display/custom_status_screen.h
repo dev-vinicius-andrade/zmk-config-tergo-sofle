@@ -1,7 +1,7 @@
 /*
  *
  * Copyright (c) 2024 The ZMK Contributors
- * SPDX-License-Identifier: MIT a
+ * SPDX-License-Identifier: MIT
  *
  */
 
