@@ -44,7 +44,7 @@ static void get_dongle_mac_str()
     {
         const bt_addr_le_t *addr = &addrs[0];
 
-        snprintf(dongle_mac_str, sizeof(dongle_mac_str), "MAC: %02X:%02X:%02X:%02X:%02X:%02X",
+        snprintf(dongle_mac_str, sizeof(dongle_mac_str), "%02X:%02X:%02X:%02X:%02X:%02X",
                  addr->a.val[5], addr->a.val[4], addr->a.val[3],
                  addr->a.val[2], addr->a.val[1], addr->a.val[0]);
     }
@@ -72,8 +72,8 @@ lv_obj_t *zmk_display_status_screen()
     zmk_widget_output_status_init(&output_status_widget, screen);
     lv_obj_align(zmk_widget_output_status_obj(&output_status_widget), LV_ALIGN_TOP_LEFT, 0, 0);
 
-    zmk_widget_bongo_cat_init(&bongo_cat_widget, screen);
-    lv_obj_align(zmk_widget_bongo_cat_obj(&bongo_cat_widget), LV_ALIGN_BOTTOM_RIGHT, 0, -7);
+    // zmk_widget_bongo_cat_init(&bongo_cat_widget, screen);
+    // lv_obj_align(zmk_widget_bongo_cat_obj(&bongo_cat_widget), LV_ALIGN_BOTTOM_RIGHT, 0, -7);
 
     zmk_widget_modifiers_init(&modifiers_widget, screen);
     lv_obj_align(zmk_widget_modifiers_obj(&modifiers_widget), LV_ALIGN_BOTTOM_LEFT, 0, 0);
@@ -92,8 +92,9 @@ lv_obj_t *zmk_display_status_screen()
     // MAC Address Label
     lv_obj_t *mac_label = lv_label_create(screen);
     lv_label_set_text(mac_label, dongle_mac_str);
+    lv_style_set_text_font(&mac_label, &lv_font_unscii_8);
     // lv_obj_set_style_text_font(mac_label, &lv_font_montserrat_10, 0);
-    lv_obj_align(mac_label, LV_ALIGN_TOP_MID, 0, 12);
+    lv_obj_align(mac_label, LV_ALIGN_TOP_MID, 0, 16);
 
     return screen;
 }
