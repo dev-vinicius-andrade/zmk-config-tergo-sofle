@@ -36,12 +36,15 @@ jobs:
         with:
           path: ./artifacts
 
-      - name: Zip Artifacts
+      - name: Flatten Artifacts
+        run: |
+          mkdir -p flat-artifacts
+          find ./artifacts/firmware* -type f -exec cp {} flat-artifacts/ \;
+
+      - name: Zip Flattened Artifacts
         run: |
           mkdir -p zipped
-          for dir in ./artifacts/firmware*; do
-            zip -r "zipped/$(basename "$dir").zip" "$dir"
-          done
+          zip -j "zipped/firmware.zip" flat-artifacts/*
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
@@ -49,5 +52,5 @@ jobs:
           tag_name: ${{ steps.check.outputs.tag }}
           name: Release ${{ steps.check.outputs.tag }}
           files: |
-            artifacts/**/*
+            flat-artifacts/*
             zipped/*.zip
