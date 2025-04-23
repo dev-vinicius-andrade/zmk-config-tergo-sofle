@@ -15,10 +15,10 @@ include:
     snippet: zmk-usb-logging
     artifact-name: sofle_receptor_international_log_enable
     cmake-args: -DDTS_EXTRA_CPPFLAGS=-DUSE_INTERNATIONAL_LAYOUT
-  - board: nice_nano_v2
-    shield: sofle_dongle dongle_display
-    snippet: zmk-usb-logging
-    artifact-name: sofle_receptor_abnt2_log_enable
+  # - board: nice_nano_v2
+  #   shield: sofle_dongle dongle_display
+  #   snippet: zmk-usb-logging
+  #   artifact-name: sofle_receptor_abnt2_log_enable
   - board: nice_nano_v2
     shield: sofle_left
     artifact-name: sofle_left
