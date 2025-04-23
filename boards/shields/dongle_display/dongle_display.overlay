@@ -3,6 +3,10 @@
  *
  * SPDX-License-Identifier: MIT
  */
- zephyr_udc0: &usbd {
-    status = "okay";
+&usbd {
+	status = "okay";
+	cdc_acm_uart: cdc_acm_uart {
+		compatible = "zephyr,cdc-acm-uart";
+		label = "CDC_ACM_0";
+	};
 };
