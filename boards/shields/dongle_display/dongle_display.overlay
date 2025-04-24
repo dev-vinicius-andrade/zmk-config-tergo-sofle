@@ -7,7 +7,6 @@
     
     chosen {
         zephyr,console = &snippet_zmk_usb_logging_uart;
-        zephyr,console = &cdc_uart0;
         zephyr,shell-uart = &snippet_zmk_usb_logging_uart;
         zephyr,log-backend-serial =&snippet_zmk_usb_logging_uart;
     };
