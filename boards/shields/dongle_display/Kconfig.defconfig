@@ -44,11 +44,16 @@ choice LV_COLOR_DEPTH
     default LV_COLOR_DEPTH_1
 endchoice
 
-config ZMK_STATIC_MAC_ADDRESS
-    string "Static MAC address"
-    default ""
+config ZMK_SPLIT_PERIPHERAL_MAX_BONDS
+    int "Max bonded centrals to track"
+    default 4
     help
-      Optional static random Bluetooth MAC address in the format C0:FF:EE:C0:DE:01.
-      If set, the central or peripheral will use this instead of the default MAC.
+      The maximum number of bonded central devices (dongles) the peripheral should remember and rotate advertising for.
+
+config ZMK_SPLIT_PERIPHERAL_ADV_ROTATION_INTERVAL
+    int "Advertising rotation interval (seconds)"
+    default 5
+    help
+      Time (in seconds) between rotating directed advertising to known bonded centrals.
 
 endif
