@@ -1,0 +1,12 @@
+/ {
+    chosen {
+        zephyr,console = &cdc_uart0;
+        zephyr,shell-uart = &cdc_uart0;
+    };
+};
+
+&zephyr_udc0 {
+    cdc_uart0: cdc_uart0 {
+        compatible = "zephyr,cdc-acm-uart";
+    };
+};
