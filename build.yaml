@@ -21,12 +21,3 @@ include:
   - board: nice_nano_v2
     shield: settings_reset
     artifact-name: reset-firmware
-  - board: nice_nano_v2
-    shield: sofle_dongle dongle_display
-    snippet: zmk-usb-logging
-    artifact-name: sofle_receptor_international_logging
-    cmake-args: -DDTS_EXTRA_CPPFLAGS=-DUSE_INTERNATIONAL_LAYOUT
-  - board: nice_nano_v2
-    shield: sofle_dongle dongle_display
-    snippet: zmk-usb-logging
-    artifact-name: sofle_receptor_abnt2_logging
