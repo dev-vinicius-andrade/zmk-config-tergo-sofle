@@ -3,12 +3,9 @@
  *
  * SPDX-License-Identifier: MIT
  */
-/ {
-    
+{
     chosen {
         zephyr,console = &snippet_zmk_usb_logging_uart;
-        zephyr,shell-uart = &snippet_zmk_usb_logging_uart;
-        zephyr,log-backend-serial =&snippet_zmk_usb_logging_uart;
     };
 };
 &zephyr_udc0 {
