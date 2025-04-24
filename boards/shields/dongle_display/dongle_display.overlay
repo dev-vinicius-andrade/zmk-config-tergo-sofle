@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: MIT
  */
-{
+/{
     chosen {
         zephyr,console = &snippet_zmk_usb_logging_uart;
     };
