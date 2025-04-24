@@ -1,5 +1,6 @@
 if SHIELD_SOFLE_DONGLE
 
+
 # Max 16 characters in keyboard name
 config ZMK_KEYBOARD_NAME
     default "Tergo Sofle"
