@@ -1,0 +1,15 @@
+{
+  "files.associations": {
+    "*.page-template": "vue",
+    "*.layout-template": "vue",
+    "*.vue": "vue",
+    "*.code-workspace": "jsonc",
+    ".env*": "dotenv",
+    "*.ts": "typescript",
+    "*.css": "tailwindcss",
+    "*.overlay": "dts",
+    "*.keymap": "dts",
+    "stdlib.h": "c",
+    "custom_status_screen.h": "c"
+  }
+}
