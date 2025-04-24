@@ -16,7 +16,7 @@
 #include <zephyr/bluetooth/bluetooth.h>
 #include <stdio.h>
 #include <string.h>
-#include <zephyr/
+
 LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 
 static struct zmk_widget_output_status output_status_widget;
